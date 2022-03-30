@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, redirect, url_for
-from app.forms import PhoneBookForm
+from app.forms import PhoneBookForm, SignUpForm
 from app.models import PhoneBook
 @app.route('/')
 def index():
@@ -25,3 +25,17 @@ def phonebook():
         return redirect(url_for('phonebook'))
 
     return render_template('phonebook.html', title = title, form = form)
+
+@app.route('/signup', methods = ['GET', 'POST'])
+def signup():
+    title = "Sign Up"
+    form = SignUpForm()
+
+    if form.validate_on_submit():
+        email = form.email.data
+        username = form.username.data
+        password = form.password.data 
+        
+        print(email, username, password)
+    
+    return render_template('signup.html', title = title, form = form)
