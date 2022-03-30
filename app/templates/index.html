@@ -2,9 +2,22 @@
 
 {% block content %}
 
-    <p>Click the button up top to start adding phone numbers!</p>
+    <p class="text-center">Click the button up top to start adding phone numbers! ------------^</p>
+    <p class="text-center">Here are your current entries below.</p>
 
-
-
-
+    <div class="row">
+        {% for book in pb %}
+            <div class="col-sm-4 col-lg-3">
+                <div class="card bg-dark border-secondary d-flex m-1 overflow-auto" style="min-width: 12rem; min-height:10rem; max-height: 10rem">
+                    <div class="card-body">
+                        <h5 class="title">{{book.first_name}} {{book.last_name}}</h5>
+                        <p class="card-text">{{book.phone_number}}</p>
+                        <p class="card-text">{{book.address}}</p>
+                    </div>
+                </div>
+            </div>
+            
+        {% endfor %}
+    </div>
+    
 {% endblock content %}

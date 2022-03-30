@@ -4,8 +4,9 @@ from app.forms import PhoneBookForm
 from app.models import PhoneBook
 @app.route('/')
 def index():
+    phonebooks = PhoneBook.query.all()
     title = 'home'
-    return render_template('index.html', title = title)
+    return render_template('index.html', title = title, pb = phonebooks)
 
 
 
@@ -21,6 +22,6 @@ def phonebook():
         address = form.address.data 
         new_pbook = PhoneBook(first_name = first_name, last_name = last_name, phone_number = phone_number, address = address)
 
-        # return redirect(url_for('index'))
+        return redirect(url_for('phonebook'))
 
     return render_template('phonebook.html', title = title, form = form)
