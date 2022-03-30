@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Add a phone book entry below.</h2>
+
+    <form method="post">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            {{ form.first_name.label }}
+            {{ form.first_name(class="form-control", placeholder="First Name") }}
+
+            {{ form.last_name.label }}
+            {{ form.last_name(class="form-control", placeholder="Last Name") }}
+
+            {{ form.phone_number.label }}
+            {{ form.phone_number(class="form-control", placeholder="Phone Number") }}
+
+            {{ form.address.label }}
+            {{ form.address(class="form-control", placeholder="Address") }}
+
+            {{ form.submit(class="btn btn-primary w-100 mt-2") }} 
+        </div>
+
+
+    </form>
+
+{% endblock content %}
