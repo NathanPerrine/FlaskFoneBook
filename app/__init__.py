@@ -19,3 +19,5 @@ app.register_blueprint(auth)
 
 from app.blueprints.phonebook import phonebook
 app.register_blueprint(phonebook)
+
+from app import routes

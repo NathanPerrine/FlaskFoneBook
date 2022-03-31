@@ -17,6 +17,7 @@ def signup():
         
         # Check if user exists
         user_already_exists = User.query.filter((User.username==username)|(User.email==email)).all()
+        #User.query.filter(User.username.ilike('jimbim')).first()
         if user_already_exists:
             # If that username/email is already taken, flash a warning message, redirect
             flash("That username or email already exists, please try another.", "danger")
@@ -24,7 +25,7 @@ def signup():
 
         new_user = User(email = email, username = username, password = password)
         flash(f"{new_user} has been created!")
-        
+        #set to login instead of redirect
         return redirect(url_for('auth.login'))
     return render_template('signup.html', title = title, form = form)
 
