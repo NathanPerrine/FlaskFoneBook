@@ -11,7 +11,13 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 login = LoginManager(app)
-login.login_view = 'login'
+login.login_view = 'auth.login'
 login.login_message_category = 'danger'
 
-from app import routes, models
+from app.blueprints.auth import auth 
+app.register_blueprint(auth)
+
+from app.blueprints.phonebook import phonebook
+app.register_blueprint(phonebook)
+
+from app import routes

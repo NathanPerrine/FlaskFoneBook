@@ -4,7 +4,7 @@
 
     {% if not books %}
         <div>
-            <h2>It seems like your PhoneBook is empty, consider adding some entries <a href="{{ url_for('phonebook') }}" class="link-light">here</a>.</h2>
+            <h2>It seems like your PhoneBook is empty, consider adding some entries <a href="{{ url_for('phonebook.phonebookentry') }}" class="link-light">here</a>.</h2>
         </div>
     {% endif %}
 
