@@ -1,5 +1,6 @@
 from app import app, db
-from app.models import PhoneBook, User
+from app.blueprints.auth.models import User
+from app.blueprints.phonebook.models import PhoneBook
 
 @app.shell_context_processor
 def make_context():

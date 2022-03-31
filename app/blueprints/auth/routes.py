@@ -1,43 +1,11 @@
-from app import app
-from flask import render_template, redirect, url_for, flash
-from flask_login import login_user, logout_user, login_required, current_user
-from app.forms import PhoneBookForm, SignUpForm, LogInForm
-from app.models import PhoneBook, User
-
-@app.route('/')
-def index():
-    phonebooks = PhoneBook.query.all()
-    title = 'home'
-    return render_template('index.html', title = title, pb = phonebooks)
+from flask import render_template, redirect, url_for, flash 
+from flask_login import login_user, logout_user, login_required
+from . import auth
+from .forms import SignUpForm, LogInForm
+from .models import User
 
 
-
-@app.route('/phonebook', methods = ["GET", "POST"])
-@login_required
-def phonebook():
-    title = 'phone book entry'
-    form = PhoneBookForm()
-
-    if form.validate_on_submit():
-        first_name = form.first_name.data 
-        last_name = form.last_name.data
-        phone_number = form.phone_number.data
-        address = form.address.data 
-        new_pbook = PhoneBook(first_name = first_name, last_name = last_name, phone_number = phone_number, address = address, user_id = current_user.id)
-        flash(f"{first_name} has been added to your PhoneBook.", "primary")
-        return redirect(url_for('phonebook'))
-
-    return render_template('phonebook.html', title = title, form = form)
-
-@app.route('/myphonebook')
-@login_required
-def myphonebook():
-    title = "My PhoneBook Entries"
-    books = current_user.phonebooks.all()
-    return render_template('my_phonebook.html', title = title, books = books)
-
-
-@app.route('/signup', methods = ['GET', 'POST'])
+@auth.route('/signup', methods = ['GET', 'POST'])
 def signup():
     title = "Sign Up"
     form = SignUpForm()
@@ -57,11 +25,10 @@ def signup():
         new_user = User(email = email, username = username, password = password)
         flash(f"{new_user} has been created!")
         
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
     return render_template('signup.html', title = title, form = form)
 
-
-@app.route('/login', methods=['GET', 'POST'])
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
     title = "Log In"
     form = LogInForm()
@@ -74,14 +41,15 @@ def login():
         if user and user.check_password(password):
             login_user(user)
             flash(f'{user} has successfully logged in.', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('phonebook.index'))
         else: # No user or password is incorrect
             flash('Username and/or password is incorrect.', 'danger')
 
     return render_template('login.html', title = title, form = form)
 
-@app.route('/logout')
+@auth.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash('You have successfully logged out.', 'primary')
-    return redirect(url_for('index'))
+    return redirect(url_for('phonebook.index'))
