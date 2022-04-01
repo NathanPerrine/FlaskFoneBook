@@ -24,7 +24,10 @@ def phonebookentry():
         last_name = form.last_name.data
         phone_number = form.phone_number.data
         address = form.address.data 
+        image = form.image.data
         new_pbook = PhoneBook(first_name = first_name, last_name = last_name, phone_number = phone_number, address = address, user_id = current_user.id)
+        if image:
+            new_pbook.upload_to_cloudinary(image)
         flash(f"{first_name} has been added to your PhoneBook.", "primary")
         return redirect(url_for('phonebook.phonebookentry'))
 

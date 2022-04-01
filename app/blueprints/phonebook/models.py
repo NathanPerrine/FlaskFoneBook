@@ -1,4 +1,14 @@
 from app import db
+import os 
+import cloudinary
+import cloudinary.uploader 
+import cloudinary.api
+
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
+)
 
 class PhoneBook(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -7,6 +17,7 @@ class PhoneBook(db.Model):
     phone_number = db.Column(db.String(14), nullable = False)
     address = db.Column(db.String(50), nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    image_url = db.Column(db.String(100))
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -31,4 +42,7 @@ class PhoneBook(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    #def upload_to_cloudinary(self, file_to_upload):
+    def upload_to_cloudinary(self, file_to_upload):
+        image_info = cloudinary.uploader.upload(file_to_upload)
+        self.image_url = image_info.get('url')
+        db.session.commit()

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField 
+from wtforms import StringField, SubmitField, FileField
 from wtforms.validators import DataRequired
 
 class PhoneBookForm(FlaskForm):
@@ -7,4 +7,5 @@ class PhoneBookForm(FlaskForm):
     last_name  = StringField('Last Name')
     phone_number = StringField('Phone Number', validators=[DataRequired()])
     address = StringField('Address', validators=[DataRequired()])
+    image = FileField('Post Image')
     submit = SubmitField('Add')
