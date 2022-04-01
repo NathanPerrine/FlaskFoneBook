@@ -16,7 +16,7 @@ def signup():
         password = form.password.data 
         
         # Check if user exists
-        user_already_exists = User.query.filter((User.username==username)|(User.email==email)).all()
+        user_already_exists = User.query.filter((User.username.ilike(username))|(User.email.ilike(email))).all()
         #User.query.filter(User.username.ilike('jimbim')).first()
         if user_already_exists:
             # If that username/email is already taken, flash a warning message, redirect
@@ -39,7 +39,8 @@ def login():
         username = form.username.data
         password = form.password.data 
         # Check for a user with that username and then check the password
-        user = User.query.filter_by(username=username).first()
+        # user = User.query.filter_by(username=username).first()
+        user = User.query.filter(User.username.ilike(username)).first()
         if user and user.check_password(password):
             login_user(user)
             flash(f'{user} has successfully logged in.', 'success')
