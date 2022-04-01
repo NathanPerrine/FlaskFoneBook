@@ -13,21 +13,19 @@
             {% if book.image_url %}
             <div class="card bg-dark border-secondary m-1 justify-content-center" style="max-width: 540px; height: 13rem;">
                 <div class="row g-0">
-                    <div class="col-md-4 d-flex justify-content-center" style="transform: rotate(0);">
-                        <a href="{{ url_for('phonebook.edit_contact', contact_id=book.id) }}" class="stretched-link"></a>
+                    <div class="col-md-4 d-flex justify-content-center">
                         <img src="{{ book.image_url }}" class="rounded-start" style="width:10rem; max-height: 12rem;" alt="...">
                     </div>
                     <div class="col-md-8">
-                        <div class="card-body" style="transform: rotate(0);">
-                            <a href="{{ url_for('phonebook.edit_contact', contact_id=book.id) }}" class="stretched-link"></a>
+                        <div class="card-body">
                             <h5 class="card-title">{{ book.first_name }}</h5>
                             <h5 class="card-title">{{ book.last_name }}</h5>
                             <p class="card-text">Phone Number: {{book.phone_number}}</p>
                             <p class="card-text">Address: {{book.address}}</p>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <a href="{{ url_for('phonebook.edit_contact', contact_id=book.id) }}" class="btn btn-success border-secondary"><i class="fas fa-edit"></i></a>
-                            <button class="btn btn-danger" type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal{{ book.id }}"><i class="fas fa-trash"></i></button>
+                            <a href="{{ url_for('phonebook.edit_contact', contact_id=book.id) }}" class="btn btn-success border-secondary stretched-link"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-danger" style="z-index: 2;" type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal{{ book.id }}"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 </div>
