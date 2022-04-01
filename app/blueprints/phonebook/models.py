@@ -34,8 +34,11 @@ class PhoneBook(db.Model):
 
     def update(self, **kwargs):
         for key, value in kwargs.items():
+            # print(key, value)
             if key in {'first_name', 'last_name', 'phone_number', 'address'}:
                 setattr(self, key, value)
+            # if key == 'image':
+            #     self.upload_to_cloudinary(value)
             db.session.commit()
     
     def delete(self):
