@@ -36,3 +36,30 @@ def myphonebook():
     title = "My PhoneBook Entries"
     books = current_user.phonebooks.all()
     return render_template('my_phonebook.html', title = title, books = books)
+
+@pb.route('/edit-contact/<contact_id>', methods=["GET", "POST"])
+@login_required 
+def edit_contact(contact_id):
+    contact = PhoneBook.query.get_or_404(contact_id)
+    #Check if the user trying to edit the post is the current user
+    if contact.author != current_user:
+        flash("You do not have edit access for this contact.", "danger")
+        return redirect(url_for('phonebook.myphonebook'))
+    title = f"Edit Contact: {{ contact.first_name }}"
+    form = PhoneBookForm()
+    if form.validate_on_submit():
+        contact.update(**form.data)
+        flash(f"{contact.first_name} has been updated.", "success")
+        return redirect(url_for('phonebook.myphonebook'))
+    return render_template('contact_edit.html', title=title, contact=contact, form=form)
+
+@pb.route('/delete_contact/<contact_id>')
+@login_required
+def delete_contact(contact_id):
+    contact = PhoneBook.query.get_or_404(contact_id)
+    if contact.author != current_user:
+        flash("You do not have delete access to this post.", 'secondary')
+    else:
+        contact.delete()
+        flash(f"{contact} has been removed.", 'secondary')
+    return redirect(url_for('phonebook.myphonebook'))

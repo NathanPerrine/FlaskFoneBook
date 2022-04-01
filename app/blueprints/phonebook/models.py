@@ -20,3 +20,15 @@ class PhoneBook(db.Model):
         if self.last_name:
             fullname += " " + self.last_name
         return f"{fullname}"
+
+    def update(self, **kwargs):
+        for key, value in kwargs.items():
+            if key in {'first_name', 'last_name', 'phone_number', 'address'}:
+                setattr(self, key, value)
+            db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    #def upload_to_cloudinary(self, file_to_upload):

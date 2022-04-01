@@ -26,7 +26,8 @@ def signup():
         new_user = User(email = email, username = username, password = password)
         flash(f"{new_user} has been created!")
         #set to login instead of redirect
-        return redirect(url_for('auth.login'))
+        login_user(new_user)
+        return redirect(url_for('index'))
     return render_template('signup.html', title = title, form = form)
 
 @auth.route('/login', methods=['GET', 'POST'])

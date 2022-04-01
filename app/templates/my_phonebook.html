@@ -11,14 +11,42 @@
     <div class="row">
         {% for book in books %}
             <div class="col-sm-4 col-lg-3">
-                <div class="card bg-dark border-secondary d-flex m-1 overflow-auto" style="min-width: 12rem; min-height:10rem; max-height: 10rem">
+                <div class="card bg-dark border-secondary d-flex m-1 overflow-auto" style="min-width: 12rem; min-height:13rem; max-height: 13rem">
                     <div class="card-body">
                         <h5 class="title">{{book.first_name}} {{book.last_name}}</h5>
                         <p class="card-text">{{book.phone_number}}</p>
                         <p class="card-text">{{book.address}}</p>
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('phonebook.edit_contact', contact_id=book.id) }}" class="btn btn-success border-secondary"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-danger" type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal{{ book.id }}"><i class="fas fa-trash"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
+            
+        </div>
+  
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal{{ book.id }}" tabindex="-1" aria-labelledby="deleteModal{{ book.id }}Label" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title text-dark" id="deleteModal{{ book.id }}Label">Delete {{ book }}?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-dark">
+                Are you sure you want to delete {{ book }}? <br>
+                This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="{{ url_for('phonebook.delete_contact', contact_id=book.id) }}" class="btn btn-danger">Confirm</a>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
             
         {% endfor %}
     </div>
